@@ -29,12 +29,13 @@ public class TSTForRate implements TriesForExample {
             String line = scanner.nextLine();
             Student student = new Student(line);
             String Key = (student.hodem().trim() +" " + student.ten().trim());
-            Key = Key.replaceAll("\\s+"," ");
+            Key = Key.replaceAll("\\s+"," ").toLowerCase();
             dssv.put(Key, student.diemTb());
         }                                                                                                                                                                  
         scanner.close();
 //
-    } public class StudentRate{
+    }
+    public class StudentRate{
         private String ten;
         private Double diem;
 
@@ -52,7 +53,7 @@ public class TSTForRate implements TriesForExample {
 
     @Override
     public Iterable<StudentRate> search(String query) {
-        query = query.trim().replaceAll("\\s+"," ");
+        query = query.trim().replaceAll("\\s+"," ").toLowerCase();
         Queue<StudentRate > results= new Queue<>();
         for(String key : this.dssv.keysWithPrefix(query)){
             StudentRate s = new StudentRate(key,this.dssv.get(key));

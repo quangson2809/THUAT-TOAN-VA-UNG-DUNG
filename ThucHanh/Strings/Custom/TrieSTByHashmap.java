@@ -1,4 +1,4 @@
-
+package Custom;
 /******************************************************************************
  *  Compilation:  javac TrieST.java
  *  Execution:    java TrieST < words.txt
@@ -18,8 +18,16 @@
  *  the 5
  *
  ******************************************************************************/
-import java.io.*;
- 
+
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+
 
 /**
  *  The {@code TrieST} class represents an symbol table of key-value
@@ -48,8 +56,8 @@ import java.io.*;
  *  For additional documentation, see <a href="https://algs4.cs.princeton.edu/52trie">Section 5.2</a> of
  *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  */
-public class TrieST<Value> {
-    private static final int R = 256;        // extended ASCII
+public class TrieSTByHashmap<Value> {
+//    private static final int R = 256;        // extended ASCII
 //    private static final int R = 65536; // extended UNICODE16
 
     private Node root;      // root of trie
@@ -58,13 +66,13 @@ public class TrieST<Value> {
     // R-way trie node
     private static class Node {
         private Object val;
-        private Node[] next = new Node[R];
+        private HashMap<Character,Node> next = new HashMap<>();
     }
 
    /**
      * Initializes an empty string symbol table.
      */
-    public TrieST() {
+    public TrieSTByHashmap() {
     }
 
 
@@ -98,7 +106,7 @@ public class TrieST<Value> {
         if (x == null) return null;
         if (d == key.length()) return x;
         char c = key.charAt(d);
-        return get(x.next[c], key, d+1);
+        return get(x.next.get(c), key, d+1);
     }
 
     /**
@@ -123,7 +131,9 @@ public class TrieST<Value> {
             return x;
         }
         char c = key.charAt(d);
-        x.next[c] = put(x.next[c], key, val, d+1);
+        // Lấy nút con hiện tại và gọi đệ quy, sau đó cập nhật lại trong map
+        Node child = x.next.get(c);
+        x.next.put(c, put(child, key, val, d+1));
         return x;
     }
 
@@ -167,12 +177,13 @@ public class TrieST<Value> {
     }
 
     private void collect(Node x, StringBuilder prefix, Queue<String> results) {
-        StdOut.println("==========log ");
+//        StdOut.println("===========log ");
         if (x == null) return;
         if (x.val != null) results.enqueue(prefix.toString());
-        for (char c = 0; c < R; c++) {
+        // Chỉ duyệt qua các nhánh (con) thực sự tồn tại
+        for (Character c : x.next.keySet()) {
             prefix.append(c);
-            collect(x.next[c], prefix, results);
+            collect(x.next.get(c), prefix, results);
             prefix.deleteCharAt(prefix.length() - 1);
         }
     }
@@ -202,15 +213,15 @@ public class TrieST<Value> {
             return;
         char c = pattern.charAt(d);
         if (c == '.') {
-            for (char ch = 0; ch < R; ch++) {
+            for (char ch : x.next.keySet()) {
                 prefix.append(ch);
-                collect(x.next[ch], prefix, pattern, results);
+                collect(x.next.get(ch), prefix, pattern, results);
                 prefix.deleteCharAt(prefix.length() - 1);
             }
         }
         else {
             prefix.append(c);
-            collect(x.next[c], prefix, pattern, results);
+            collect(x.next.get(c), prefix, pattern, results);
             prefix.deleteCharAt(prefix.length() - 1);
         }
     }
@@ -239,7 +250,7 @@ public class TrieST<Value> {
         if (x.val != null) length = d;
         if (d == query.length()) return length;
         char c = query.charAt(d);
-        return longestPrefixOf(x.next[c], query, d+1, length);
+        return longestPrefixOf(x.next.get(c), query, d+1, length);
     }
 
     /**
@@ -257,18 +268,22 @@ public class TrieST<Value> {
         if (d == key.length()) {
             if (x.val != null) n--;
             x.val = null;
-        }
-        else {
+        } else {
             char c = key.charAt(d);
-            x.next[c] = delete(x.next[c], key, d+1);
+            Node child = x.next.get(c);
+            Node result = delete(child, key, d + 1);
+            if (result == null) {
+                x.next.remove(c); // Xóa nhánh con nếu nó trở nên rỗng
+            } else {
+                x.next.put(c, result);
+            }
         }
 
-        // remove subtrie rooted at x if it is completely empty
-        if (x.val != null) return x;
-        for (int c = 0; c < R; c++)
-            if (x.next[c] != null)
-                return x;
-        return null;
+        // Xóa nút x nếu nó không phải là cuối của một từ và không có con nào
+        if (x.val == null && x.next.isEmpty()) {
+            return null;
+        }
+        return x;
     }
 
     /**
@@ -279,7 +294,7 @@ public class TrieST<Value> {
     public static void main(String[] args) throws IOException {
         System.setIn(new FileInputStream(new File("shellsST.txt")));
         // build symbol table from standard input
-        TrieST<Integer> st = new TrieST<Integer>();
+        TrieSTByHashmap<Integer> st = new TrieSTByHashmap<>();
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);

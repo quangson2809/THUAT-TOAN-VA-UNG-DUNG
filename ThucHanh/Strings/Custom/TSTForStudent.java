@@ -29,7 +29,7 @@ public class TSTForStudent implements TriesForExample {
             String line = scanner.nextLine();
             Student student = new Student(line);
             String Key = (student.hodem().trim() +" " + student.ten().trim());
-            Key = Key.replaceAll("\\s+"," ");
+            Key = Key.replaceAll("\\s+"," ").toLowerCase();
             dssv.put(Key, student);
         }
         scanner.close();
@@ -41,7 +41,7 @@ public class TSTForStudent implements TriesForExample {
             while(scn.hasNextLine()){
                 String  line = scn.nextLine();
                 String[] str = line.split(",");
-                String keyforStudent = str[0].trim().replaceAll("\\s+"," ");
+                String keyforStudent = str[0].trim().replaceAll("\\s+"," ").toLowerCase();
 //                System.out.println(keyforStudent);
                 Double diem = Double.parseDouble(str[1].trim());
                 this.dssv.get(keyforStudent).bangdiem().put(monhoc,diem);
@@ -53,7 +53,7 @@ public class TSTForStudent implements TriesForExample {
 
     @Override
     public Iterable<Student> search(String query) {
-        query = query.trim().replaceAll("\\s+"," ");
+        query = query.trim().replaceAll("\\s+"," ").toLowerCase();
         Queue<Student> results= new Queue<>();
         for(String key : this.dssv.keysWithPrefix(query)){
             results.enqueue(this.dssv.get(key));
@@ -80,7 +80,7 @@ public class TSTForStudent implements TriesForExample {
         try {
             trie.getInput(files);
             trie.displayAll();
-            for(Student student : trie.search("Đặng    Quang ")){
+            for(Student student : trie.search("đặng    Quang ")){
                 System.out.println("-----" + student );
             }
             for(Student student : trie.search("   Nguyễn   ")){

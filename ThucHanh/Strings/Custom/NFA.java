@@ -1,4 +1,4 @@
-/******************************************************************************
+package Custom; /******************************************************************************
  *  Compilation:  javac NFA.java
  *  Execution:    java NFA regexp text
  *  Dependencies: Stack.java Bag.java Digraph.java DirectedDFS.java
@@ -25,7 +25,8 @@
  *
  ******************************************************************************/
 
- 
+
+import edu.princeton.cs.algs4.*;
 
 /**
  *  The {@code NFA} class provides a data type for creating a
@@ -68,7 +69,7 @@ public class NFA {
     public NFA(String regexp) {
         this.regexp = regexp;
         m = regexp.length();
-        Stack<Integer> ops = new Stack<Integer>(); 
+        Stack<Integer> ops = new Stack<Integer>();
         graph = new Digraph(m+1); 
         for (int i = 0; i < m; i++) { 
             int lp = i; 

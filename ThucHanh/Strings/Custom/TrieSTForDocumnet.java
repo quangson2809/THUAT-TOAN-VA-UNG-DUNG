@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrieSTForDocumnet implements TriesForExample {
-    private TrieST<Integer> doc ;
+    private TrieSTByHashmap<Integer> doc ;
 
     public TrieSTForDocumnet(){
-        this.doc = new TrieST<Integer>();
+        this.doc = new TrieSTByHashmap<Integer>();
     }
 
     @Override
@@ -53,8 +53,9 @@ public class TrieSTForDocumnet implements TriesForExample {
         try {
             trie.getInput(files);
             trie.displayAll();
-            System.out.println("query: di");
-            for(String key : trie.search("di")){
+            String query = "đi";
+            System.out.println("====query: "+ query);
+            for(String key : trie.search(query)){
                 System.out.println(key);
             }
         } catch (FileNotFoundException e) {

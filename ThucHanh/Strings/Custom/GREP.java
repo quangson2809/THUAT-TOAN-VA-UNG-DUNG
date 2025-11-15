@@ -1,4 +1,4 @@
-
+package Custom;
 /******************************************************************************
  *  Compilation:  javac GREP.java
  *  Execution:    java GREP regexp < input.txt
@@ -39,7 +39,14 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import java.io.*;
+
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class GREP {
 
     // do not instantiate
@@ -58,7 +65,7 @@ public class GREP {
         System.setIn(new FileInputStream(new File("tinyL.txt")));
         String regexp = "(.*" + "AB" + ".*)";
         NFA nfa = new NFA(regexp);
-        while (StdIn.hasNextLine()) { 
+        while (StdIn.hasNextLine()) {
             String line = StdIn.readLine();
             if (nfa.recognizes(line)) {
                 StdOut.println("=====" +line);

@@ -1,43 +1,65 @@
-
+package Custom;
 /******************************************************************************
- *  Compilation:  javac KWIK.java
- *  Execution:    java KWIK file.txt
- *  Dependencies: StdIn.java StdOut.java In.java SuffixArray.java
- *  Data files:   https://algs4.cs.princeton.edu/63suffix/tale.txt
- *                https://algs4.cs.princeton.edu/63suffix/mobydick.txt 
- *
- *  Keyword-in-context search.
- *
- *  %  java KWIK tale.txt 15
- *  majesty
- *   most gracious majesty king george th
- *  rnkeys and the majesty of the law fir
- *  on against the majesty of the people 
- *  se them to his majestys chief secreta
- *  h lists of his majestys forces and of
- *
- *  the worst
- *  w the best and the worst are known to y
- *  f them give me the worst first there th
- *  for in case of the worst is a friend in
- *  e roomdoor and the worst is over then a
- *  pect mr darnay the worst its the wisest
- *  is his brother the worst of a bad race 
- *  ss in them for the worst of health for 
- *   you have seen the worst of her agitati
- *  cumwented into the worst of luck buuust
- *  n your brother the worst of the bad rac
- *   full share in the worst of the day pla
- *  mes to himself the worst of the strife 
- *  f times it was the worst of times it wa
- *  ould hope that the worst was over well 
- *  urage business the worst will be over i
- *  clesiastics of the worst world worldly 
- *
+ ========nghệ an========
+ đời. súp lươn nghệ an của quán có nư
+ n món súp lươn nghệ an là lươn đồng t
+ ng món đặc sản nghệ an ngon nổi tiếng
+ mùi. súp lươn nghệ an thường được ăn
+ n kèm súp lươn nghệ an – sự kết hợp r
+
+ ========kết hợp========
+ êm nếm đậm đà, kết hợp bánh mướt nóng
+ n nghệ an – sự kết hợp rất đặc trưng
+
+ ========súp lươn========
+ niên lâu đời. súp lươn nghệ an của qu
+ nh làm nên món súp lươn nghệ an là lươ
+ m của rau mùi. súp lươn nghệ an thường
+ nh mướt ăn kèm súp lươn nghệ an – sự k
+ o thêm ớt. bát súp lươn ngon đúng điệu
+ ĩ ngay đến món súp lươn. món ăn này ba
+
+ ========bánh mướt========
+ cắn một miếng bánh mướt chấm lươn, bạn
+ an sang trọng, bánh mướt dì lương vẫn k
+ n kèm bánh mì, bánh mướt hoặc bánh đa.
+ hoặc mưa nhẹ. bánh mướt lan thanh là m
+ ậm đà, kết hợp bánh mướt nóng hổi tạo n
+ và hoài niệm. bánh mướt thúy hiếu khôn
+ từng miếng bánh mướt trắng ngần, mề
+ sốt mặn ngọt, bánh mướt tại quán lan t
+ g như tên gọi, bánh mướt việt hiệp luôn
+ ệt của quán là bánh mướt ăn kèm súp lươ
+ ừa tráng xong. bánh mướt ở đây dày hơn
+ . khi chan lên bánh mướt, tất cả tạo nê
+ ốn thưởng thức bánh mướt. bánh ở đây kh
+
+ ========ngon========
+ ặc sản nghệ an ngon nổi tiếng, nhi
+ . bát súp lươn ngon đúng điệu xứ n
+ a thì lại thấy ngon, thấy ghiền và
+ hưởng thức món ngon.
+ lươn cũng rất ngon. không gian qu
+
+ ========–========
+ iữa đất – trời – lúa – nước miề
+ t – trời – lúa – nước miền trun
+ p lươn nghệ an – sự kết hợp rất
+ áo lòng ăn kèm – thơm mùi tiêu,
+ quyện giữa đất – trời – lúa – n
+ ng nàn của mắm – tạo nên một tổ
+ g non, gan heo – tất cả tạo nên
  ******************************************************************************/
 
- 
-import java.io.*;
+
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.SuffixArray;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  *  The {@code KWIK} class provides a {@link SuffixArray} client for computing
@@ -51,10 +73,10 @@ import java.io.*;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public class KWIK {
+public class KWIKVNtext {
 
     // Do not instantiate.
-    private KWIK() { }
+    private KWIKVNtext() { }
 
     /**
      * Reads a string from a file specified as the first
@@ -76,11 +98,12 @@ public class KWIK {
         SuffixArray sa = new SuffixArray(text);
         ///
         In in = new In("Custom/banhmuotquery.txt");
-        int context = Integer.parseInt("15");/// left và right lấy max 15 ký tự
+        int context = Integer.parseInt("15");/// left và right lấy max 15 ký tự 
 
         // find all occurrences of queries and give context
         while (in.hasNextLine()) {
             String query = in.readLine().toLowerCase();
+            StdOut.println("========" + query+ "========");
             for (int i = sa.rank(query); i < n; i++) /// bắt đầu rank của query giả sử nằm trong trong suffix[]
             {
                 int from1 = sa.index(i);

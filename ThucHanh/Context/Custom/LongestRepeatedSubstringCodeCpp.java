@@ -1,4 +1,4 @@
-/******************************************************************************
+package Custom; /******************************************************************************
  *  Compilation:  javac LongestRepeatedSubstring.java
  *  Execution:    java LongestRepeatedSubstring < file.txt
  *  Dependencies: StdIn.java SuffixArray.java
@@ -29,7 +29,7 @@
  
 
 /**
- *  The {@code LongestRepeatedSubstring} class provides a {@link SuffixArray}
+ *  The {@code LongestRepeatedSubstring} class provides a {@link suffixArray}
  *  client for computing the longest repeated substring of a string that
  *  appears at least twice. The repeated substrings may overlap (but must
  *  be distinct).
@@ -38,16 +38,24 @@
  *  see <a href="https://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
  *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *  <p>
- *  See also {@link LongestCommonSubstring}.
+ *  See also {@link lngestCommonSubstring}.
  *
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import java.io.*;
-public class LongestRepeatedSubstring {
+
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.SuffixArray;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class LongestRepeatedSubstringCodeCpp {
 
     // Do not instantiate.
-    private LongestRepeatedSubstring() { }
+    private LongestRepeatedSubstringCodeCpp() { }
 
     /**
      * Returns the longest common string of the two specified strings.
