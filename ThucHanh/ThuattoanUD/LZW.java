@@ -2,7 +2,7 @@
  *  Compilation:  javac LZW.java
  *  Execution:    java LZW - < input.txt   (compress)
  *  Execution:    java LZW + < input.txt   (expand)
- *  Dependencies: BinaryIn.java BinaryOut.java
+ *  Dependencies: BinaryIn.java Custom.BinaryOut.java
  *  Data files:   https://algs4.cs.princeton.edu/55compression/abraLZW.txt
  *                https://algs4.cs.princeton.edu/55compression/ababLZW.txt
  *

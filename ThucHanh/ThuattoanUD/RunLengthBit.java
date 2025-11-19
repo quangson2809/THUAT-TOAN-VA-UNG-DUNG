@@ -2,7 +2,7 @@
  *  Compilation:  javac RunLengthBit.java
  *  Execution:    java RunLengthBit - < input.txt   (compress)
  *  Execution:    java RunLengthBit + < input.txt   (expand)
- *  Dependencies: BinaryIn.java BinaryOut.java
+ *  Dependencies: BinaryIn.java Custom.BinaryOut.java
  *  Data files:   https://algs4.cs.princeton.edu/55compression/4runs.bin
  *                https://algs4.cs.princeton.edu/55compression/q32x48.bin
  *                https://algs4.cs.princeton.edu/55compression/q64x96.bin

@@ -1,6 +1,6 @@
-/******************************************************************************
- *  Compilation:  javac BinaryOut.java
- *  Execution:    java BinaryOut
+package Custom; /******************************************************************************
+ *  Compilation:  javac Custom.BinaryOut.java
+ *  Execution:    java Custom.BinaryOut
  *  Dependencies: none
  *
  *  Write binary data to an output stream, either one 1-bit boolean,
@@ -13,6 +13,8 @@
  ******************************************************************************/
 
 
+import edu.princeton.cs.algs4.BinaryIn;
+
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +22,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /**
- *  The <code>BinaryOut</code> data type provides a basic capability for
+ *  The <code>Custom.BinaryOut</code> data type provides a basic capability for
  *  converting primitive type variables ({@code boolean}, {@code byte},
  *  {@code char}, {@code int}, {@code long}, {@code float}, and {@code double})
  *  to sequences of bits and writing them to an output stream.
@@ -29,7 +31,7 @@ import java.net.Socket;
  *  <p>
  *  The client must {@code flush()} the output stream when finished writing bits.
  *  <p>
- *  The client should not intermix calls to {@code BinaryOut} with calls
+ *  The client should not intermix calls to {@code Custom.BinaryOut} with calls
  *  to {@code Out}; otherwise unexpected behavior will result.
  *
  *  @author Robert Sedgewick
@@ -349,7 +351,7 @@ public final class BinaryOut {
         // create binary output stream to write to file
         String filename = args[0];
         BinaryOut out = new BinaryOut(filename);
-        BinaryIn  in  = new BinaryIn();
+        BinaryIn in  = new BinaryIn();
 
         // read from standard input and write to file
         while (!in.isEmpty()) {

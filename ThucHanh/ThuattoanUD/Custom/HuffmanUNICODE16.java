@@ -1,4 +1,4 @@
-/******************************************************************************
+package Custom; /******************************************************************************
  *  Compilation:  javac Huffman.java
  *  Execution:    java Huffman - < input.txt   (compress)
  *  Execution:    java Huffman + < input.txt   (expand)
@@ -20,7 +20,7 @@
  *
  ******************************************************************************/
 
- 
+
 
 /**
  *  The {@code Huffman} class provides static methods for compressing
@@ -35,22 +35,23 @@
  *  @author Kevin Wayne
  */
 
-import Custom.BinaryOut;
+import edu.princeton.cs.algs4.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
 public class HuffmanUNICODE16 {
 
     // alphabet size of extended ASCII
-    private static final int R = 65536;
-    private static BinaryOut binaryOut = new BinaryOut("Custom/fileCompress.txt");
-    // Do not instantiate.
-    private HuffmanUNICODE16() {
+    private static String fileCompress="Custom/fileCompress.txt";
+    private static String fileInput="Custom/Huffman10studentUNICODE.txt";
+    private static String fileExpand="Custom/fileExpand.txt";
 
-    }
+    // Do not instantiate.
+    private HuffmanUNICODE16() { }
 
     // Huffman trie node
     private static class Node implements Comparable<Node> {
@@ -78,63 +79,101 @@ public class HuffmanUNICODE16 {
     }
 
     /**
-     * Reads a sequence of 16-bit bytes from standard input; compresses them
-     * using Huffman codes with an 16-bit alphabet; and writes the results
+     * Reads a sequence of 8-bit bytes from standard input; compresses them
+     * using Huffman codes with an 8-bit alphabet; and writes the results
      * to standard output.
      */
-    public static void compress() {
-        BinaryIn in = new BinaryIn();
+    public static void compress() throws FileNotFoundException {
+        System.setIn(new FileInputStream(new File(fileInput)));
+        BinaryOut BinaryOut = new BinaryOut(fileCompress);
         // read the input
-        String s = in.readStringUTF16();
+        String s = StdIn.readAll();
         char[] input = s.toCharArray();
 
         // tabulate frequency counts
-        HashMap<Character,Integer> freq = new HashMap<>();
+        HashMap<Character,Integer> freq = new HashMap<Character,Integer>();
+//        int[] freq = new int[R];
         for (int i = 0; i < input.length; i++){
-            int frequency = 1;
-            if(freq.containsKey(input[i]))
-                frequency += freq.get(input[i]);
-            freq.put(input[i],frequency);
+//            freq[input[i]]++;
+            if(freq.containsKey(input[i])){
+                freq.put(input[i],freq.get(input[i])+1);
+            }
+            else
+                freq.put(input[i],1);
         }
 
         // build Huffman trie
         Node root = buildTrie(freq);
 
         // build code table
-        HashMap<Character, String> st = new HashMap<>();
+//        String[] st = new String[R];//mảng code với index là ký tự tại mỗi node
+        HashMap<Character, String> st = new HashMap<Character,String>();
+
         buildCode(st, root, "");
+        tablecode(freq,st);
 
         // print trie for decoder
-        writeTrie(root);
+        writeTrie(root ,BinaryOut);
 
         // print number of bytes in original uncompressed message
-        binaryOut.write(input.length);
+        BinaryOut.write(input.length);
 
         // use Huffman code to encode input
         for (int i = 0; i < input.length; i++) {
             String code = st.get(input[i]);
             for (int j = 0; j < code.length(); j++) {
                 if (code.charAt(j) == '0') {
-                    binaryOut.write(false);
+                    BinaryOut.write(false);
                 }
+
                 else if (code.charAt(j) == '1') {
-                    binaryOut.write(true);
+                    BinaryOut.write(true);
                 }
                 else throw new IllegalStateException("Illegal state");
             }
         }
 
         // close output stream
-        binaryOut.close();
+        BinaryOut.close();
     }
+    private static void tablecode(HashMap<Character, Integer> freq, HashMap<Character, String> st) {
+        System.out.println("=========================================");
+        System.out.println("   BẢNG TẦN SUẤT VÀ MÃ HUFFMAN            ");
+        System.out.println("=========================================");
+        System.out.printf("%-10s %-10s %-15s\n", "Ký Tự", "Tần Suất", "Mã Huffman");
+        System.out.println("-----------------------------------------");
 
+        // Dùng một Priority Queue để in các ký tự theo tần suất giảm dần
+        MinPQ<Node> pq = new MinPQ<>();
+        for (char c : freq.keySet()) {
+            pq.insert(new Node(c, -freq.get(c), null, null));
+        }
+        while (!pq.isEmpty()) {
+            Node node = pq.delMin();
+            char character = node.ch;
+            int frequency = -node.freq; // Chuyển lại thành số dương
+            String code = st.get(character);
+            // Xử lý các ký tự đặc biệt như xuống dòng, tab...
+            String charDisplay;
+            if (character == '\n') charDisplay = "\\n";
+            else if (character == '\r') charDisplay = "\\r";
+            else if (character == '\t') charDisplay = "\\t";
+            else if (character == ' ') charDisplay = "' '";
+            else charDisplay = "'" + character + "'";
+
+            System.out.printf("%-10s %-10d %-15s\n", charDisplay, frequency, code);
+        }
+    }
     // build the Huffman trie given frequencies
-    private static Node buildTrie(HashMap<Character,Integer> freq) {
+    private static Node buildTrie(HashMap<Character, Integer> freq) {
 
         // initialize priority queue with singleton trees
         MinPQ<Node> pq = new MinPQ<Node>();
-        for (char c : freq.keySet())
+        for (char c : freq.keySet()) {
+//            if (freq[c] > 0)
+//                pq.insert(new Node(c, freq[c], null, null));
             pq.insert(new Node(c, freq.get(c), null, null));
+        }
 
         // merge two smallest trees
         while (pq.size() > 1) {
@@ -148,15 +187,15 @@ public class HuffmanUNICODE16 {
 
 
     // write bitstring-encoded trie to standard output
-    private static void writeTrie(Node x) {
+    private static void writeTrie(Node x,BinaryOut BinaryOut) {
         if (x.isLeaf()) {
-            binaryOut.write(true);
-            binaryOut.write(x.ch, 16);
+            BinaryOut.write(true);
+            BinaryOut.write(x.ch, 16);
             return;
         }
-        binaryOut.write(false);
-        writeTrie(x.left);
-        writeTrie(x.right);
+        BinaryOut.write(false);
+        writeTrie(x.left,BinaryOut);
+        writeTrie(x.right,BinaryOut);
     }
 
     // make a lookup table from symbols and their encodings
@@ -166,7 +205,8 @@ public class HuffmanUNICODE16 {
             buildCode(st, x.right, s + '1');
         }
         else {
-            st.put(x.ch,s); /// st[ch] là các bit
+//            st[x.ch] = s; /// st[i] là các bit
+            st.put(x.ch,s);
         }
     }
 
@@ -174,35 +214,38 @@ public class HuffmanUNICODE16 {
      * Reads a sequence of bits that represents a Huffman-compressed message from
      * standard input; expands them; and writes the results to standard output.
      */
-    public static void expand() {
-        BinaryIn in = new BinaryIn();
+    public static void expand() throws FileNotFoundException {
+        System.setIn(new FileInputStream(new File(fileCompress)));
+
+        BinaryOut BinaryOut = new BinaryOut(fileExpand);
+
         // read in Huffman trie from input stream
-        Node root = readTrie(in);
+        Node root = readTrie();
 
         // number of bytes to write
-        int length = in.readInt();
+        int length = BinaryStdIn.readInt();
 
         // decode using the Huffman trie
         for (int i = 0; i < length; i++) {
             Node x = root;
             while (!x.isLeaf()) {
-                boolean bit = in.readBoolean();
+                boolean bit = BinaryStdIn.readBoolean();
                 if (bit) x = x.right;
                 else     x = x.left;
             }
-            binaryOut.write(x.ch, 16);
+            BinaryOut.write(x.ch);
         }
-        binaryOut.close();
+        BinaryOut.close();
     }
 
 
-    private static Node readTrie(BinaryIn in) {
-        boolean isLeaf = in.readBoolean();
+    private static Node readTrie() {
+        boolean isLeaf = BinaryStdIn.readBoolean();
         if (isLeaf) {
-            return new Node(in.readCharUTF16(), -1, null, null);
+            return new Node(BinaryStdIn.readChar(16), -1, null, null);
         }
         else {
-            return new Node('\0', -1, readTrie(in), readTrie(in));
+            return new Node('\0', -1, readTrie(), readTrie());
         }
     }
 
@@ -213,9 +256,7 @@ public class HuffmanUNICODE16 {
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException {
-
-        System.setIn(new FileInputStream(new File("Custom/Huffman10studentUTF16.txt")));
-        String str = "-";
+        String str = "+";
         if      (str.equals("-")) compress();
         else if (str.equals("+")) expand();
         else throw new IllegalArgumentException("Illegal command line argument");

@@ -1,4 +1,4 @@
-/******************************************************************************
+package Custom; /******************************************************************************
  *  Compilation:  javac BinaryDump.java
  *  Execution:    java BinaryDump n < file
  *  Dependencies: BinaryStdIn.java
@@ -33,13 +33,20 @@
  *  see <a href="https://algs4.cs.princeton.edu/55compression">Section 5.5</a> of
  *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *  <p>
- *  See also {@link HexDump} and {@link PictureDump}.
+ *  See also {@link -HexDump} and {@link -PictureDump}.
  *
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import java.io.*;
-public class BinaryDump{
+
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class BinaryDump {
 
     // Do not instantiate.
     private BinaryDump() { }
@@ -56,7 +63,9 @@ public class BinaryDump{
     public static void main(String[] args) throws IOException {
         /*System.setIn(new FileInputStream(new File("tinytinyTale.txt")));*/
 //        System.setIn(new FileInputStream(new File("q64x96.bin")));
-        System.setIn(new FileInputStream(new File("Custom/fileCompress.txt")));
+        System.setIn(new FileInputStream(new File("abra.txt")));
+//        System.setIn(new FileInputStream(new File("Custom/fileExpand.txt")));
+
 //        System.setIn(new FileInputStream(new File("outbit.bin")));
         int bitsPerLine = 16;
         if (args.length == 1) {

@@ -2,7 +2,7 @@
  *  Compilation:  javac Huffman.java
  *  Execution:    java Huffman - < input.txt   (compress)
  *  Execution:    java Huffman + < input.txt   (expand)
- *  Dependencies: BinaryIn.java BinaryOut.java
+ *  Dependencies: BinaryIn.java Custom.BinaryOut.java
  *  Data files:   https://algs4.cs.princeton.edu/55compression/abra.txt
  *                https://algs4.cs.princeton.edu/55compression/tinytinyTale.txt
  *                https://algs4.cs.princeton.edu/55compression/medTale.txt
@@ -38,7 +38,7 @@ import java.io.*;
 public class Huffman {
 
     // alphabet size of extended ASCII
-    private static final int R = 256;
+    private static final int R = 65536;
 
     // Do not instantiate.
     private Huffman() { }
@@ -201,7 +201,7 @@ public class Huffman {
      */
     public static void main(String[] args) throws IOException {
 
-        System.setIn(new FileInputStream(new File("Huffman10student.txt")));
+        System.setIn(new FileInputStream(new File("Custom/Huffman10student.txt")));
         String str = "-";
         if      (str.equals("-")) compress();
         else if (str.equals("+")) expand();

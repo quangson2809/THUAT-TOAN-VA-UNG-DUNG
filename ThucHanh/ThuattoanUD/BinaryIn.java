@@ -9,6 +9,8 @@
  *
  ******************************************************************************/
 
+import Custom.BinaryOut;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -405,8 +407,8 @@ public final class BinaryIn {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        BinaryIn  in  = new BinaryIn("fileOut.txt");
-        BinaryOut out = new BinaryOut("fileMatch.txt");
+        BinaryIn  in  = new BinaryIn("Custom/fileExpand.txt");
+        BinaryOut out = new BinaryOut("Custom/fileMatch.txt");
 
         // read one 8-bit char at a time
         while (!in.isEmpty()) {

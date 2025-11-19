@@ -1,4 +1,4 @@
-/******************************************************************************
+package Custom; /******************************************************************************
  *  Compilation:  javac RunLength.java
  *  Execution:    java RunLength - < input.txt   (compress)
  *  Execution:    java RunLength + < input.txt   (expand)
@@ -36,9 +36,13 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import Custom.BinaryOut;
 
-import java.io.*;
+import edu.princeton.cs.algs4.BinaryStdIn;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class RunLength {
     private static final int R    = 256;
     private static final int LG_R = 8;
@@ -104,9 +108,7 @@ public class RunLength {
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException {
-//        System.setIn(new FileInputStream(new File("abra.txt")));
         System.setIn(new FileInputStream(new File("Custom/fileCompress.txt")));
-
         String str = "+";
         if      (str.equals("-")) compress();
         else if (str.equals("+")) expand();

@@ -2,7 +2,7 @@
  *  Compilation:  javac HuffmanFileOut.java
  *  Execution:    java HuffmanFileOut - < input.txt   (compress)
  *  Execution:    java HuffmanFileOut + < input.txt   (expand)
- *  Dependencies: BinaryIn.java BinaryOut.java
+ *  Dependencies: BinaryIn.java Custom.BinaryOut.java
  *  Data files:   https://algs4.cs.princeton.edu/55compression/abra.txt
  *                https://algs4.cs.princeton.edu/55compression/tinytinyTale.txt
  *                https://algs4.cs.princeton.edu/55compression/medTale.txt
@@ -200,11 +200,12 @@ public class HuffmanFileOut {
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException {
-        /*System.setIn(new FileInputStream(new File("abra.txt")));*/
-        System.setIn(new FileInputStream(new File("outbit.bin")));
+        System.setIn(new FileInputStream(new File("abra.txt")));
+//        System.setIn(new FileInputStream(new File("outbit.bin")));
         /*System.setIn(new FileInputStream(new File("q64x96.bin")));*/
-        if      (args[0].equals("-")) compress();
-        else if (args[0].equals("+")) expand();
+        String token = "-";
+        if      (token.equals("-")) compress();
+        else if (token.equals("+")) expand();
         else throw new IllegalArgumentException("Illegal command line argument");
     }
 
