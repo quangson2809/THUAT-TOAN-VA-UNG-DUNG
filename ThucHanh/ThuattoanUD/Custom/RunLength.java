@@ -38,10 +38,12 @@ package Custom; /***************************************************************
  */
 
 import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class RunLength {
     private static final int R    = 256;
@@ -109,10 +111,18 @@ public class RunLength {
      */
     public static void main(String[] args) throws IOException {
         System.setIn(new FileInputStream(new File("Custom/fileCompress.txt")));
-        String str = "+";
-        if      (str.equals("-")) compress();
-        else if (str.equals("+")) expand();
-        else throw new IllegalArgumentException("Illegal command line argument");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            StdOut.println("nhập token: ");
+            String token = scanner.nextLine();
+            if (token.equals("-")) compress();
+            else if (token.equals("+")) expand();
+            else throw new IllegalArgumentException("Illegal command line argument");
+        } catch (Exception e) {
+            StdOut.println(e);
+        } finally {
+            scanner.close();
+        }
     }
 
 }

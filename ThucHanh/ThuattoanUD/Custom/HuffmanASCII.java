@@ -37,8 +37,11 @@ package Custom; /***************************************************************
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.io.*;
+import java.util.Scanner;
+
 public class  HuffmanASCII{
 
     // alphabet size of extended ASCII
@@ -239,11 +242,18 @@ public class  HuffmanASCII{
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException {
-
-        String str = "-";
-        if      (str.equals("-")) compress();
-        else if (str.equals("+")) expand();
-        else throw new IllegalArgumentException("Illegal command line argument");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            StdOut.println("nhập token: ");
+            String token = scanner.nextLine();
+            if (token.equals("-")) compress();
+            else if (token.equals("+")) expand();
+            else throw new IllegalArgumentException("Illegal command line argument");
+        } catch (Exception e) {
+            StdOut.println(e);
+        } finally {
+            scanner.close();
+        }
     }
 
 }

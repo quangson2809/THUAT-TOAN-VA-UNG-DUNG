@@ -42,12 +42,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class HuffmanUNICODE16 {
 
     // alphabet size of extended ASCII
     private static String fileCompress="Custom/fileCompress.txt";
-    private static String fileInput="Custom/Huffman10studentUNICODE.txt";
+    private static String fileInput="Custom/HuffmanDoc.txt";
     private static String fileExpand="Custom/fileExpand.txt";
 
     // Do not instantiate.
@@ -256,10 +257,18 @@ public class HuffmanUNICODE16 {
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException {
-        String str = "+";
-        if      (str.equals("-")) compress();
-        else if (str.equals("+")) expand();
-        else throw new IllegalArgumentException("Illegal command line argument");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            StdOut.println("nhập token: ");
+            String token = scanner.nextLine();
+            if (token.equals("-")) compress();
+            else if (token.equals("+")) expand();
+            else throw new IllegalArgumentException("Illegal command line argument");
+        } catch (Exception e) {
+            StdOut.println(e);
+        } finally {
+            scanner.close();
+        }
     }
 
 }
