@@ -1,18 +1,17 @@
+package Custom;
+
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class SegmentIntersection {
-    private BST<Integer, Segment>  st_y;
-    private MinPQ<Event> pq_x;
+    private BST<Integer, Segment> st_y;
+    private MinPQ<EventSegment> pq_x;
     private List<Point2d> intersectionPoints;
 
     public SegmentIntersection() {}
@@ -35,14 +34,14 @@ public class SegmentIntersection {
 
                 Segment segment = new Segment(start,end);
 
-                Event eventstart = new Event(start.getX(), Event.EventType.START,segment);
+                EventSegment eventstart = new EventSegment(start.getX(), EventSegment.EventType.START,segment);
                 pq_x.insert(eventstart);
 
                 //loại bỏ điểm end của đoạn doọc
                 if (start.getX() == end.getX())
                     continue;
 
-                Event eventend = new Event(end.getX(), Event.EventType.END, segment);
+                EventSegment eventend = new EventSegment(end.getX(), EventSegment.EventType.END, segment);
                 pq_x.insert(eventend);
             }
         }catch (Exception e){
@@ -55,7 +54,7 @@ public class SegmentIntersection {
     }
 
     public void sweep(){
-        for(Event e : pq_x){
+        for(EventSegment e : pq_x){
             //kiểm tra là đoạn dọc
             if(e.getSegment().getType() == Segment.SegmentType.VERTICAL){
                 checkIntersection(e);
@@ -65,7 +64,7 @@ public class SegmentIntersection {
                 Segment segment =e.getSegment();
                 int y = segment.getY();
                 //là điểm đầu của đoạn
-                if(e.getType() == Event.EventType.END){
+                if(e.getType() == EventSegment.EventType.END){
                     st_y.delete(y);
                     //là điểm cuối
                 }else{
@@ -74,7 +73,7 @@ public class SegmentIntersection {
             }
         }
     }
-    private void checkIntersection(Event e){
+    private void checkIntersection(EventSegment e){
 
         if(st_y.isEmpty()) return;
 
@@ -101,7 +100,7 @@ public class SegmentIntersection {
     }
     public static  void main(String[] args) {
         try {
-            SegmentIntersection si = new SegmentIntersection("points.txt");
+            SegmentIntersection si = new SegmentIntersection("Custom/segments.txt");
             StdOut.println("size of events : "+ si.pq_x.size());
             StdOut.println("min of events : "+ si.pq_x.min());
             si.sweep();

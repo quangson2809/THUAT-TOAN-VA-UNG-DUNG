@@ -1,4 +1,4 @@
-import java.awt.geom.Point2D;
+package Custom;
 
 public class Segment {
     public enum  SegmentType {  HORIZONTAL, VERTICAL }
@@ -37,7 +37,7 @@ public class Segment {
 
     @Override
     public String toString() {
-        return "Segment{" +
+        return "Custom.Segment{" +
                 "left=" + left +
                 ", right=" + right +
                 ", type=" + type +

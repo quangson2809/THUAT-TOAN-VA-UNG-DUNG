@@ -1,4 +1,6 @@
-public class Event implements Comparable<Event> {
+package Custom;
+
+public class EventSegment implements Comparable<EventSegment> {
 
     public enum EventType { START, END }
 
@@ -6,7 +8,7 @@ public class Event implements Comparable<Event> {
     private int x;
     private Segment segment;
 
-    public Event(int x, EventType type, Segment segment){
+    public EventSegment(int x, EventType type, Segment segment){
         this.x=x;
         this.type=type;
         this.segment= segment;
@@ -25,13 +27,13 @@ public class Event implements Comparable<Event> {
     }
 
     @Override
-    public int compareTo(Event other) {
+    public int compareTo(EventSegment other) {
         return Integer.compare(this.x, other.x);
     }
 
     @Override
     public String toString() {
-        return "Event{" +
+        return "Custom.Event{" +
                 "type=" + type +
                 ", x=" + x +
                 ", segment=" + segment +
