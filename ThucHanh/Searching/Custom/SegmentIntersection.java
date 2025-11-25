@@ -63,11 +63,13 @@ public class SegmentIntersection {
             else if(e.getSegment().getType() == Segment.SegmentType.HORIZONTAL){
                 Segment segment =e.getSegment();
                 int y = segment.getY();
-                //là điểm đầu của đoạn
+                //là điểm cuôis của đoạn
                 if(e.getType() == EventSegment.EventType.END){
                     st_y.delete(y);
-                    //là điểm cuối
-                }else{
+
+                }
+                //là điểm đầu
+                else{
                     st_y.put(y,segment);
                 }
             }

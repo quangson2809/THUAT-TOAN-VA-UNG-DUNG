@@ -1,6 +1,7 @@
 package Custom;
 
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.StdOut;
 
 public class IntervalTree1d {
     private Node root;
@@ -121,6 +122,8 @@ public class IntervalTree1d {
         if (interval == null) throw new IllegalArgumentException("calls delete() with a null key");
         root = delete(root, interval);
 
+        if (root == null ) return;
+
         int leftMax = (root.left == null) ? Integer.MIN_VALUE : root.left.max;
         int rightMax = (root.right == null) ? Integer.MIN_VALUE : root.right.max;
         root.max = Math.max(root.interval.getHigh(), Math.max(leftMax, rightMax));
@@ -182,25 +185,25 @@ public class IntervalTree1d {
         tree.put(new Interval1d(16, 20), new Rectangle2d(1,16,2,20));
         tree.put(new Interval1d(19, 21), new Rectangle2d(2,19,2,21));
 
-        System.out.println("===SIZE: " + tree.size());
+        StdOut.println("===SIZE: " + tree.size());
 
 
         for(Interval1d key : tree.intervals()){
-            System.out.print(key);
-            System.out.println( tree.get(key));
+            StdOut.print(key);
+            StdOut.println( tree.get(key));
         }
 
         tree.delete(new Interval1d(1,20));
-        System.out.println("===After delete :(1,20) ");
+        StdOut.println("===After delete :(1,20) ");
         for(Interval1d key : tree.intervals()){
-            System.out.print(key);
-            System.out.println( tree.get(key));
+            StdOut.print(key);
+            StdOut.println( tree.get(key));
         }
         Interval1d query = new Interval1d(20,21);
-        System.out.println("===search : "+ query);
+        StdOut.println("===search : "+ query);
 
         for(Interval1d interval1d: tree.searchInterSection(query)){
-            System.out.println(interval1d);
+            StdOut.println(interval1d);
         }
     }
 }

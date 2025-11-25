@@ -1,11 +1,11 @@
 package Custom;
 
-public class Interval1D implements Comparable<Interval1D>{
+public class Interval1d implements Comparable<Interval1d>{
 
     private int low;
     private int high;
 
-    public Interval1D(int low, int high) {
+    public Interval1d(int low, int high) {
         this.low = low;
         this.high = high;
     }
@@ -23,7 +23,7 @@ public class Interval1D implements Comparable<Interval1D>{
     public int max(){
         return high;
     }
-    public boolean intersects(Interval1D that){
+    public boolean intersects(Interval1d that){
         if(this.high < that.low ) return false;
         if (that.high <this.low ) return false;
         return true;
@@ -38,7 +38,7 @@ public class Interval1D implements Comparable<Interval1D>{
     }
 
     @Override
-    public int compareTo(Interval1D o) {
+    public int compareTo(Interval1d o) {
         if (low < o.low) return -1;
         if (low > o.low) return 1;
         return 0;

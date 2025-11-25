@@ -1,5 +1,7 @@
 package Custom;
 
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -204,9 +206,9 @@ public class KDTree {
         }
 
         // Search for specific points in the K-D Tree
-        System.out.println(
+        StdOut.println(
                 tree.search(new Point2d (10,19))); // true
-        System.out.println(
+        StdOut.println(
                 tree.search(new Point2d(12,19))); // false
 
         // Range search for points within the specified

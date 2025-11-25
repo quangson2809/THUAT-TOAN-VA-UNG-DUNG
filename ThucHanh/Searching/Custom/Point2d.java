@@ -33,7 +33,7 @@ public class Point2d implements Comparable<Point2d> {
 
     @Override
     public String toString() {
-        return "Custom.Point2d{" +
+        return "Point2d{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';
